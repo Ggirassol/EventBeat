@@ -1,0 +1,9 @@
+.event-card {
+    display: flex;
+    justify-content: space-between;
+    margin: 10vh;
+}
+
+.bold {
+    font-weight: bold;
+}
