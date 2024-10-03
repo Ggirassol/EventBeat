@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAllEvents } from "../../../api";
-import "./AllEvents.css";
+import "./EventList.css";
 import Eventcard from "../EventCard/EventCard";
 
 const AllEvents = () => {

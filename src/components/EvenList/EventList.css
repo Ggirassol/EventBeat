@@ -1,0 +1,10 @@
+.event-list {
+    margin-left: 10vh;
+    margin-right: 10vh;
+}
+
+button {
+    margin: 3vh 3vh 3vh 10vh;
+    font-size: x-small;
+    padding: 0.7vh;
+}

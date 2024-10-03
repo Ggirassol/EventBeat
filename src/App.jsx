@@ -1,6 +1,6 @@
 import "./App.css";
 import { Route, Routes } from 'react-router-dom';
-import AllEvents from './components/AllEvents/AllEvents'
+import EventList from './components/EvenList/EventList'
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <h1>EventBite</h1>
       </div>
       <Routes>
-        <Route path='/' element={<AllEvents />}/>
+        <Route path='/' element={<EventList />}/>
       </Routes>
     </>
   );
