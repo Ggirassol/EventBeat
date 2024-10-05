@@ -1,0 +1,11 @@
+.single-event h1 {
+    font-size: x-large;
+}
+
+.single-event img {
+    width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
