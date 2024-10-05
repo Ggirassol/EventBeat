@@ -1,23 +1,21 @@
 import "./EventCard.css";
+import { Link } from "react-router-dom";
+import getDates from "../../getDatesfunc";
 
 const Eventcard = ({ event }) => {
-
-  const date = event.dates.start.localDate
-  const d = new Date(date);
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
+  const date = event.dates.start.localDate;
+  
   return (
     <li className="event-card">
       <div className="event-info">
         <div className="event-date">
-          <p className="day bold">{d.getDate()}</p>
-          <p className="month bold">{months[d.getMonth()]}</p>
-          <p className="year">{d.getFullYear()}</p>
+          <p className="day bold">{getDates(date).day}</p>
+          <p className="month bold">{getDates(date).month}</p>
+          <p className="year">{getDates(date).year}</p>
         </div>
         <div>
           <p>
-            <span>{weekday[d.getDay()]} </span>
+            <span>{getDates(date).weekday} </span>
             <span>{event.dates.start.localTime.slice(0, -3)}</span>
           </p>
           <p className="bold">{event.name}</p>
@@ -27,8 +25,10 @@ const Eventcard = ({ event }) => {
           </p>
         </div>
       </div>
-      <div>
-        <p>Sign Up</p>
+      <div className="see-more">
+        <Link className="see-more-link" to={`/events/${event.id}`} event={event}>
+          <p>More Info</p>
+        </Link>
       </div>
     </li>
   );
