@@ -30,3 +30,13 @@
 .month {
     font-size: medium;
 }
+
+.see-more {
+    display: flex;
+}
+
+.see-more-link {
+    text-decoration: none;
+    color: orangered;
+    align-content: center;
+}

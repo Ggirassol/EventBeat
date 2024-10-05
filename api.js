@@ -16,3 +16,6 @@ export const getAllEvents = (page) => {
     return evenBrite.get(`/events.json?countryCode=GB&sort=random&keyword=oasis&includeTest=no&startDateTime=${formattedToday}&endDateTime=${formattedTodayPlusTwoYears}&apikey=${API_KEY}&page=${page}`);
 }; // keyword used at the moment to facilitate quicker testing
 
+export const getEventById = (id) => {
+    return evenBrite.get(`/events.json?apikey=${API_KEY}&id=${id}`)
+}
