@@ -26,7 +26,7 @@ const Eventcard = ({ event }) => {
         </div>
       </div>
       <div className="see-more">
-        <Link className="see-more-link" to={`/events/${event.id}`} event={event}>
+        <Link target="_blank" className="see-more-link" to={`/events/${event.id}`} event={event}>
           <p>More Info</p>
         </Link>
       </div>
