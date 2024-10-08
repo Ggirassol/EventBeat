@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
-import {REACT_APP_FIREBASE_API_KEY} from "@env"
+import { getAuth } from "firebase/auth";
+
+const VITE_FIREBASE_API_KEY= import.meta.env.VITE_FIREBASE_API_KEY;
 
 const firebaseConfig = {
-  apiKey: REACT_APP_FIREBASE_API_KEY,
+  apiKey: VITE_FIREBASE_API_KEY,
   authDomain: "eventbite-e32e0.firebaseapp.com",
   projectId: "eventbite-e32e0",
   storageBucket: "eventbite-e32e0.appspot.com",
@@ -11,4 +13,4 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
