@@ -1,0 +1,30 @@
+.login-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 50vh;
+}
+
+.form button {
+   width: fit-content;
+   margin: 5vh 0vh 0vh 0vh;
+   align-self: flex-end;
+}
+
+.no-account {
+    margin: 5vh 0vh 0vh 0vh;
+    text-align: center;
+    border: none;
+    background-color: white;
+    font-size: xx-small;
+}
+
+.no-account-link {
+    text-decoration: none;
+    color: orangered;
+}

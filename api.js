@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY= import.meta.env.VITE_API_KEY;
+const TICKETMASTER_API_KEY= import.meta.env.VITE_TICKETMASTER_API_KEY;
 
 const today = new Date();
 const formattedToday = (today.toISOString()).toString().slice(0,-5)+"Z";
@@ -13,9 +13,9 @@ const evenBrite = axios.create({
 });
 
 export const getAllEvents = (page) => {
-    return evenBrite.get(`/events.json?countryCode=GB&sort=random&keyword=oasis&includeTest=no&startDateTime=${formattedToday}&endDateTime=${formattedTodayPlusTwoYears}&apikey=${API_KEY}&page=${page}`);
+    return evenBrite.get(`/events.json?countryCode=GB&sort=random&keyword=oasis&includeTest=no&startDateTime=${formattedToday}&endDateTime=${formattedTodayPlusTwoYears}&apikey=${TICKETMASTER_API_KEY}&page=${page}`);
 }; // keyword used at the moment to facilitate quicker testing
 
 export const getEventById = (id) => {
-    return evenBrite.get(`/events.json?apikey=${API_KEY}&id=${id}`)
+    return evenBrite.get(`/events.json?apikey=${TICKETMASTER_API_KEY}&id=${id}`)
 }
