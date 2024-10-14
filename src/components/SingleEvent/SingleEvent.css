@@ -11,7 +11,7 @@
     margin: 4vh 0 4vh 0;
 }
 
-.single-event button {
+.single-event button, .signed-up {
     text-decoration: none;
     color: orangered;
     align-content: center;
