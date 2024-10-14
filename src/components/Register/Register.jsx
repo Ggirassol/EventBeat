@@ -1,5 +1,6 @@
-import { auth } from "../../../firebaseConfig";
+import { auth, db } from "../../../firebaseConfig";
 import { createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
+import { ref, set } from "firebase/database"; 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
@@ -26,9 +27,14 @@ const Register = () => {
         alert("Please check your email inbox to verify your account and login!");
         navigate('/login', { replace: true });
         console.log(userCredentials, "userCredentials");
+        const userId = auth.currentUser.uid;
+        set(ref(db, 'users/' + userId), {
+          "email": email,
+          "isStaff": false
+        })
       })
       .catch((error) => {
-        console.log(error.code); //
+        console.log(error); //
         if (error.code === 'auth/weak-password') {
           alert("Password should be at least 6 characters")
         }

@@ -5,18 +5,47 @@ import getDates from "../../getDatesfunc";
 import "./singleEvent.css";
 import Login from "../Login/Login";
 import { UserContext } from "../../../UserContext";
+import { db } from "../../../firebaseConfig";
+import { ref, set, onValue} from "firebase/database";
 
 const SingleEvent = () => {
   const { event_id } = useParams();
   const [singleEvent, setSingleEvent] = useState(null);
   const { user } = useContext(UserContext);
+  const [hasSignedUp, setHasSignedUp] = useState(false);
+
+  function checkHasSignedUp(userId, eventId) {
+    const eventRef = ref(db, `users/${userId}/events/${eventId}`);
+    onValue(eventRef, (snapshot) => {
+      if (snapshot.val() === null) {
+        setHasSignedUp(false)
+      } else {
+        setHasSignedUp(true)
+      }
+    })
+  }
 
   useEffect(() => {
     getEventById(event_id).then(({ data }) => {
       console.log(data._embedded.events[0]);
       setSingleEvent(data._embedded.events[0]);
     });
+    checkHasSignedUp(user.uid, event_id)
   }, []);
+
+  function signUpForEvent(userId, eventId) {
+    const eventRef = ref(db, `users/${userId}/events/${eventId}`);
+    set(eventRef, {
+      eventName: singleEvent.name,
+    })
+    .then(() => {
+      setHasSignedUp(true);
+    })
+    .catch(() => {
+      alert('Error. Try again later');
+    }),
+    { onlyOnce: true }
+  }
 
   if (!singleEvent) {
     return <div className="loading">Loading...</div>;
@@ -60,7 +89,13 @@ const SingleEvent = () => {
             )
           )}
           <p>{singleEvent._embedded.venues[0].city.name}</p>
-          <button>Sign Up</button>
+          {hasSignedUp ? (
+            <p className="signed-up">You signed up for this</p>
+          ) : (
+            <button onClick={() => signUpForEvent(user.uid, event_id)}>
+              Sign Up
+            </button>
+          )}
         </div>
       )}
     </>
