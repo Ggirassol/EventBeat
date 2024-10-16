@@ -8,6 +8,7 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../UserContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import Create from "./components/Create/Create";
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -36,6 +37,7 @@ function App() {
         <Route path="/events/:event_id" element={<SingleEvent />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/create" element={<Create />} />
       </Routes>
       }
     </>

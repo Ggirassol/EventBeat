@@ -3,8 +3,26 @@
     margin-right: 10vh;
 }
 
-button {
+.load-more-btn {
     margin: 3vh 3vh 3vh 10vh;
     font-size: x-small;
     padding: 0.7vh;
 }
+
+.add-event-link {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(76, 174, 235);
+    color: black;
+    font-size: xx-large;
+    bottom: 2vh;
+    right: 2vh;
+    width: 7vh;
+    height: 7vh;
+    border-radius: 25%;
+    text-decoration: none;
+    box-shadow: 1vh 1vh 0.5vh lightblue;
+}
+
