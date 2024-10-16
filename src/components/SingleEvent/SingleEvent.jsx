@@ -13,7 +13,8 @@ const SingleEvent = () => {
   const [singleEvent, setSingleEvent] = useState(null);
   const { user } = useContext(UserContext);
   const [hasSignedUp, setHasSignedUp] = useState(false);
-
+  const [isTicketmasterEvent, setIsTicketmasterEvent] = useState(null)
+  
   function checkHasSignedUp(userId, eventId) {
     const eventRef = ref(db, `users/${userId}/events/${eventId}`);
     onValue(eventRef, (snapshot) => {
@@ -26,31 +27,40 @@ const SingleEvent = () => {
   }
 
   useEffect(() => {
-    getEventById(event_id).then(({ data }) => {
-      console.log(data._embedded.events[0]);
-      setSingleEvent(data._embedded.events[0]);
+    const eventRef = ref(db, "events/" + event_id);
+    onValue(eventRef, (snapshot) => {
+      const eventData = snapshot.val();
+      if (eventData) {
+        setIsTicketmasterEvent(false);
+        setSingleEvent(eventData);
+      } else {
+        getEventById(event_id).then(({ data }) => {
+          setIsTicketmasterEvent(true);
+          setSingleEvent(data._embedded.events[0]);
+        });
+      }
+      checkHasSignedUp(user.uid, event_id);
     });
-    checkHasSignedUp(user.uid, event_id)
   }, []);
 
   function signUpForEvent(userId, eventId) {
     const eventRef = ref(db, `users/${userId}/events/${eventId}`);
+    const eventName = isTicketmasterEvent ? singleEvent.name : singleEvent.eventName;
     set(eventRef, {
-      eventName: singleEvent.name,
+      eventName: eventName,
     })
     .then(() => {
       setHasSignedUp(true);
     })
     .catch(() => {
       alert('Error. Try again later');
-    }),
-    { onlyOnce: true }
+    })
   }
 
   if (!singleEvent) {
     return <div className="loading">Loading...</div>;
   }
-  const eventDate = singleEvent.dates.start.localDate;
+  const eventDate = isTicketmasterEvent ? singleEvent.dates.start.localDate : singleEvent.eventLocalDate
 
   return (
     <>
@@ -58,37 +68,44 @@ const SingleEvent = () => {
         <Login />
       ) : (
         <div className="single-event">
-          <h1>{singleEvent.name}</h1>
+          <h1>{isTicketmasterEvent ? singleEvent.name : singleEvent.eventName}</h1>
           <h3>
             {getDates(eventDate).weekday}, {getDates(eventDate).day}{" "}
             {getDates(eventDate).month} {getDates(eventDate).year}
           </h3>
-          <p>{singleEvent._embedded.venues[0].name}</p>
+          <p>{isTicketmasterEvent ? singleEvent._embedded.venues[0].name : singleEvent.eventVenue}</p>
           <p className="bold">
-            {singleEvent.dates.start.localTime.slice(0, -3)}
+            {isTicketmasterEvent ? singleEvent.dates.start.localTime.slice(0, -3) : singleEvent.eventLocalTime}
           </p>
-          <img src={singleEvent.images[8].url} />
+          <img src={isTicketmasterEvent ? singleEvent.images[8].url : singleEvent.eventPictureUrl} />
           <p className="genre">
-            {singleEvent.classifications[0].segment.name !== "Undefined" && (
+            {isTicketmasterEvent ? singleEvent.classifications[0].segment.name !== "Undefined" && (
               <span>{singleEvent.classifications[0].segment.name} </span>
-            )}
-            {singleEvent.classifications[0].genre.name !== "Undefined" && (
+            ) : singleEvent.eventSegment !== "Undefined" && (
+              <span>{singleEvent.eventSegment} </span>)}
+            {isTicketmasterEvent ? singleEvent.classifications[0].genre.name !== "Undefined" && (
               <span>{singleEvent.classifications[0].genre.name} </span>
+            ) : singleEvent.eventGenre && (
+              <span>{singleEvent.eventGenre} </span>
             )}
-            {singleEvent.classifications[0].subGenre.name !== "Undefined" && (
+            {isTicketmasterEvent ? singleEvent.classifications[0].subGenre.name !== "Undefined" && (
               <span>{singleEvent.classifications[0].subGenre.name} </span>
+            ) : singleEvent.eventsubGenre && (
+              <span>{singleEvent.eventsubGenre} </span>
             )}
-            {singleEvent.classifications[0].subType.name !== "Undefined" && (
+            {isTicketmasterEvent ? singleEvent.classifications[0].subType.name !== "Undefined" && (
               <span>{singleEvent.classifications[0].subType.name} </span>
+            ) : singleEvent.eventsubType && (
+              <span>{singleEvent.eventSubType} </span>
             )}
           </p>
           <p className="adress bold">Adress:</p>
-          {Object.entries(singleEvent._embedded.venues[0].address).map(
+          {isTicketmasterEvent? Object.entries(singleEvent._embedded.venues[0].address).map(
             ([key, value]) => (
               <p key={key}>{value}</p>
             )
-          )}
-          <p>{singleEvent._embedded.venues[0].city.name}</p>
+          ) : <p>{singleEvent.eventVenueAddress}</p>}
+          <p>{isTicketmasterEvent? singleEvent._embedded.venues[0].city.name : singleEvent.eventVenueCity}</p>
           {hasSignedUp ? (
             <p className="signed-up">You signed up for this</p>
           ) : (

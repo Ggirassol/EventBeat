@@ -1,9 +1,12 @@
 import "./EventCard.css";
 import { Link } from "react-router-dom";
 import getDates from "../../getDatesfunc";
+import { useState } from "react";
 
 const Eventcard = ({ event }) => {
-  const date = event.dates.start.localDate;
+
+  const [isTicketmasterEvent] = useState(event._embedded ? true : false)
+  const date = isTicketmasterEvent ? event.dates.start.localDate : event.eventLocalDate;
   
   return (
     <li className="event-card">
@@ -16,17 +19,17 @@ const Eventcard = ({ event }) => {
         <div>
           <p>
             <span>{getDates(date).weekday} </span>
-            <span>{event.dates.start.localTime.slice(0, -3)}</span>
+            <span>{isTicketmasterEvent ? event.dates.start.localTime.slice(0, -3) : event.eventLocalTime}</span>
           </p>
-          <p className="bold">{event.name}</p>
+          <p className="bold">{isTicketmasterEvent ? event.name : event.eventName}</p>
           <p>
-            <span>{event._embedded.venues[0].city.name} - </span>
-            <span>{event._embedded.venues[0].name}</span>
+            <span>{isTicketmasterEvent ? event._embedded.venues[0].city.name : event.eventVenue} - </span>
+            <span>{isTicketmasterEvent ? event._embedded.venues[0].name : event.eventVenueCity}</span>
           </p>
         </div>
       </div>
       <div className="see-more">
-        <Link target="_blank" className="see-more-link" to={`/events/${event.id}`} event={event}>
+      <Link target="_blank" className="see-more-link" to={`/events/${event.id}`}>
           <p>More Info</p>
         </Link>
       </div>
