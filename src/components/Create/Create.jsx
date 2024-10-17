@@ -49,6 +49,10 @@ const Create = () => {
             "eventVenueCity": eventVenueCity,
             "eventPictureUrl": eventPictureUrl
           })
+          .then(() => {
+            alert('Event created successfully!')
+            window.close();
+          })
           .catch((error) => {
             console.error("Error creating event: ", error);
             alert("Error creating event. Please try again.");
