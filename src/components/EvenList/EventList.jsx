@@ -59,6 +59,10 @@ const AllEvents = () => {
   }
   console.log(user)
 
+  function top() {
+  scrollTo(0,0)
+ }
+ 
   return (
     <>
     {!user ? <Login/> : (
@@ -75,8 +79,10 @@ const AllEvents = () => {
             ))}
           </ul>
 
-          {page < totalPages - 1 && <button onClick={loadMore}>Load More</button>}
+          {page < totalPages - 1 && <button className='load-more-btn' onClick={loadMore}>Load More</button>}
+          <button className="scroll-to-top-btn" onClick={top}>back to top</button>
         </div>
+
       )}
     </>
   );
