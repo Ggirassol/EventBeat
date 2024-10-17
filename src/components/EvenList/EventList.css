@@ -26,3 +26,10 @@
     box-shadow: 1vh 1vh 0.5vh lightblue;
 }
 
+.scroll-to-top-btn {
+    display: block;
+    margin: auto;
+    font-size: x-small;
+    padding: 0.7vh;
+    margin-bottom: 3vh;
+}
