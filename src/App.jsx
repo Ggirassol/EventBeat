@@ -18,13 +18,11 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-      } else {
-        setUser(null);
       }
       setLoading(false);
     });
     return () => unsubscribe();
-  }, [user]);
+  }, []);
 
   return (
     <>

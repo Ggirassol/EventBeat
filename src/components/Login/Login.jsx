@@ -2,8 +2,9 @@ import { browserLocalPersistence, setPersistence, signInWithEmailAndPassword } f
 import "./Login.css";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../../firebaseConfig";
+import { auth, db } from "../../../firebaseConfig";
 import{ UserContext} from "../../../UserContext";
+import { ref, set } from "firebase/database";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,19 +24,31 @@ const Login = () => {
   const onSubmitLogin = (e) => {
     e.preventDefault();
     setPersistence(auth, browserLocalPersistence)
-    .then(() => {
-      return signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        setUser(auth.currentUser)
-        navigate("/", { replace: true })
-      })
-      .catch((error) => {
-        console.log(error.code);
-        if (error.code === "auth/invalid-credential")
-          alert("The email or password you provided are invalid");
-      })
-    })
+        return signInWithEmailAndPassword(auth, email, password)
+          .then((userCredentials) => {
+            if (userCredentials.user.emailVerified && userCredentials.user.email === email) {
+                setUser(auth.currentUser);
+                navigate("/", { replace: true });
+            } else {
+              alert("Invalid credentials");
+            }
+          })
+          .catch((err) => {
+            if (err.code === "auth/invalid-credential") {
+              alert("Invalid credentials");
+            }
+          });
+      });
   };
+
+  console.log(user)
+
+  useEffect(() => {
+    if (user && user.emailVerified) {
+      navigate("/", { replace: true });
+    }
+  }, []);
 
   return (
     <>
