@@ -5,15 +5,16 @@ import Eventcard from "../EventCard/EventCard";
 import{ UserContext} from "../../../UserContext";
 import Login from '../Login/Login'
 import { onValue, ref } from "firebase/database";
-import { db } from "../../../firebaseConfig";
+import { auth, db } from "../../../firebaseConfig";
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 const AllEvents = () => {
   const [ticketmasterEvents, setTicketmasterEvents] = useState([]);
   const [firebaseEvents, setFirebaseEvents] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [isStaff, setIsStaff] = useState(false);
 
   useEffect(() => {
@@ -62,11 +63,20 @@ const AllEvents = () => {
   function top() {
   scrollTo(0,0)
  }
- 
+
+ function logout() {
+  signOut(auth).then(() => {
+    setUser(null)
+  }).catch((error) => {
+    // An error happened.
+  });
+ }
+
   return (
     <>
     {!user ? <Login/> : (
         <div>
+          <button className="logout-btn" onClick={logout}>Logout</button>
           {isStaff && (
             <Link target="_blank" to="/create" className="add-event-link">
               <p>+</p>
