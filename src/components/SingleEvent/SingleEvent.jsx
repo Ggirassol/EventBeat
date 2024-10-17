@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getEventById } from "../../../api";
 import getDates from "../../getDatesfunc";
 import "./singleEvent.css";
@@ -14,6 +14,14 @@ const SingleEvent = () => {
   const { user } = useContext(UserContext);
   const [hasSignedUp, setHasSignedUp] = useState(false);
   const [isTicketmasterEvent, setIsTicketmasterEvent] = useState(null)
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/", { replace: true });
+    }
+  }, [user]);
   
   function checkHasSignedUp(userId, eventId) {
     const eventRef = ref(db, `users/${userId}/events/${eventId}`);
@@ -64,9 +72,6 @@ const SingleEvent = () => {
 
   return (
     <>
-      {!user ? (
-        <Login />
-      ) : (
         <div className="single-event">
           <h1>{isTicketmasterEvent ? singleEvent.name : singleEvent.eventName}</h1>
           <h3>
@@ -114,7 +119,6 @@ const SingleEvent = () => {
             </button>
           )}
         </div>
-      )}
     </>
   );
 };

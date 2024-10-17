@@ -33,3 +33,13 @@
     padding: 0.7vh;
     margin-bottom: 3vh;
 }
+
+.logout-btn {
+    position: absolute;
+    top: 2vh;
+    right: 2vh;
+    width: 8vh;
+    height: 5vh;
+    font-size: x-small;
+    padding: 0.7vh;
+}
