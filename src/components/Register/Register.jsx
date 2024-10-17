@@ -1,13 +1,15 @@
 import { auth, db } from "../../../firebaseConfig";
 import { createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
 import { ref, set } from "firebase/database"; 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
+import { UserContext } from "../../../UserContext";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -24,8 +26,10 @@ const Register = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         sendEmailVerification(userCredentials.user);
+        console.log(userCredentials)
         alert("Please check your email inbox to verify your account and login!");
         navigate('/login', { replace: true });
+        setUser(userCredentials)
         console.log(userCredentials, "userCredentials");
         const userId = auth.currentUser.uid;
         set(ref(db, 'users/' + userId), {
@@ -44,7 +48,6 @@ const Register = () => {
           } else {
             alert("Please check your email inbox to verify your account and login!");
             navigate("/login", { replace: true });
-            console.log(auth.currentUser.emailVerified, 'emailVerified');
           }
         }
       });
