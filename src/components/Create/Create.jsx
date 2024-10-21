@@ -76,7 +76,7 @@ const Create = () => {
                 value={eventLocalDate}
                 onChange={(e) => setEventLocalDate(e.target.value)}
                 id="EventLocalDate"
-                placeholder="follow this format: 12-12-2012"
+                placeholder="follow this format: 2012-12-12"
               ></input>
               <label htmlFor="event local time"><span>* </span>Event local time</label>
               <input
