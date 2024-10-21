@@ -14,6 +14,108 @@ const SingleEvent = () => {
   const { user } = useContext(UserContext);
   const [hasSignedUp, setHasSignedUp] = useState(false);
   const [isTicketmasterEvent, setIsTicketmasterEvent] = useState(null)
+  const [addedToGoogleCalendar, setAddedToGoogleCalendar] = useState(false)
+
+  const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
+  const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+  const DISCOVERY_DOCS = "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
+  const SCOPES = 'https://www.googleapis.com/auth/calendar';
+
+  const [gapiInited, setGapiInited] = useState(false);
+  const [gisInited, setGisInited] = useState(false);
+  const [tokenClient, setTokenClient] = useState(null);
+
+  useEffect(() => {
+    if (window.gapi) {
+      gapi.load('client', initializeGapiClient);
+    };
+    gisLoaded();
+  }, []);
+
+  async function initializeGapiClient() {
+    await gapi.client.init({
+      apiKey: GOOGLE_API_KEY,
+      discoveryDocs: [DISCOVERY_DOCS],
+    });
+    setGapiInited(true);
+  }
+
+  function gisLoaded() {
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+    });
+    setTokenClient(client);
+    setGisInited(true);
+  }
+
+  function handleAuthClick() {
+    if (!gapiInited || !gisInited || !tokenClient) {
+      alert("An error has occurred... Please try again later.");
+      return;
+    }
+  
+    tokenClient.callback = (resp) => {
+      if (resp.error !== undefined) {
+        console.error(resp);
+        alert("Error during Google authentication. Please try again.");
+        return;
+      }
+      addToGoogleCalendar();
+    };
+  
+    if (gapi.client.getToken() === null) {
+      tokenClient.requestAccessToken({ prompt: 'consent' });
+    } else {
+      addToGoogleCalendar();
+    }
+  }
+
+  function addToGoogleCalendar() {
+    const startDateTime =  turnIntoGoogleDateTimeEventFormat(eventDate, (isTicketmasterEvent
+      ? singleEvent.dates.start.localTime
+      : singleEvent.eventLocalTime+":00"));
+
+      const endDateTime = addOneHourTo(startDateTime)
+    const event = {
+      summary: isTicketmasterEvent ? singleEvent.name : singleEvent.eventName,
+      location: isTicketmasterEvent ? singleEvent._embedded.venues[0].name : singleEvent.eventVenue,
+      start: {
+        dateTime: startDateTime,
+        timeZone: "Europe/London",
+      },
+      end: {
+        dateTime: endDateTime, // Replace with actual end time
+        timeZone: "Europe/London",
+      },
+      reminders: {
+        useDefault: true,
+      },
+    };
+    const request = gapi.client.calendar.events.insert({
+      'calendarId': 'primary',
+      'resource': event
+    });
+    
+    request.execute(function(event) { 
+      setAddedToGoogleCalendar(true)
+    });
+  }
+
+
+  function turnIntoGoogleDateTimeEventFormat(date, time) {
+    let googleEventDateTime = "";
+    googleEventDateTime = `${date}T${time}+00:00`;
+    return googleEventDateTime;
+  }
+
+  function addOneHourTo(dateTime) {
+    const string = dateTime.split("+");
+    const initial = new Date(string[0]);
+    const initialPlusOne = new Date(initial.getTime() + 1 * 60 * 60 * 1000);
+    const endTime = initialPlusOne.toISOString().replace('Z', '+00:00');
+    return endTime;
+  }
 
   const navigate = useNavigate();
 
@@ -112,13 +214,21 @@ const SingleEvent = () => {
           ) : <p>{singleEvent.eventVenueAddress}</p>}
           <p>{isTicketmasterEvent? singleEvent._embedded.venues[0].city.name : singleEvent.eventVenueCity}</p>
           {hasSignedUp ? (
-            <p className="signed-up">You signed up for this</p>
-          ) : (
-            <button onClick={() => signUpForEvent(user.uid, event_id)}>
-              Sign Up
-            </button>
-          )}
-        </div>
+          <div>
+            <p className="signed-up bold">You are going to this event!</p>
+            {!addedToGoogleCalendar ?
+              <button className="add-to-calendar-btn" onClick={() => handleAuthClick()}>
+                Add to Google Calendar
+              </button> :
+              <p className="added-to-calendar">Added to Google Calendar</p>
+              }
+          </div>
+        ) : (
+          <button onClick={() => signUpForEvent(user.uid, event_id)}>
+            Sign Up
+          </button>
+        )}
+      </div>
     </>
   );
 };
