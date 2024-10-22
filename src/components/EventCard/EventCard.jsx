@@ -19,7 +19,7 @@ const Eventcard = ({ event }) => {
         <div>
           <p>
             <span>{getDates(date).weekday} </span>
-            <span>{isTicketmasterEvent ? event.dates.start.localTime.slice(0, -3) : event.eventLocalTime}</span>
+            <span>{isTicketmasterEvent ? (event.dates.start.localTime ? event.dates.start.localTime.slice(0, -3) : "") : event.eventLocalTime}</span>
           </p>
           <p className="bold">{isTicketmasterEvent ? event.name : event.eventName}</p>
           <p>

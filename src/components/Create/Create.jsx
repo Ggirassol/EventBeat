@@ -30,7 +30,7 @@ const Create = () => {
     function onSubmitAddEvent(e) {
         e.preventDefault();
 
-        if (!eventName || !eventLocalDate || !eventLocalTime || !eventVenue || !eventVenueAddress || !eventVenueCity) {
+        if (!eventName || !eventLocalDate || !eventVenue || !eventVenueAddress || !eventVenueCity) {
             alert("Please fill in all manadatory fields.");
             return;
         }
@@ -78,7 +78,7 @@ const Create = () => {
                 id="EventLocalDate"
                 placeholder="follow this format: 2012-12-12"
               ></input>
-              <label htmlFor="event local time"><span>* </span>Event local time</label>
+              <label htmlFor="event local time">Event local time</label>
               <input
                 type="text"
                 value={eventLocalTime}
