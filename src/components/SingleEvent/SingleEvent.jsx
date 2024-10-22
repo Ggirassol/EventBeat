@@ -182,7 +182,7 @@ const SingleEvent = () => {
           </h3>
           <p>{isTicketmasterEvent ? singleEvent._embedded.venues[0].name : singleEvent.eventVenue}</p>
           <p className="bold">
-            {isTicketmasterEvent ? singleEvent.dates.start.localTime.slice(0, -3) : singleEvent.eventLocalTime}
+            {isTicketmasterEvent ? (singleEvent.dates.start.localTime && singleEvent.dates.start.localTime.slice(0, -3)) : singleEvent.eventLocalTime && singleEvent.eventLocalTime}
           </p>
           <img src={isTicketmasterEvent ? singleEvent.images[8].url : singleEvent.eventPictureUrl} />
           <p className="genre">
