@@ -98,7 +98,7 @@ const SingleEvent = () => {
     });
     
     request.execute(function(event) { 
-      set(ref(db, `users/${user.uid}/events/${event_id}`), {
+      update(ref(db, `users/${user.uid}/events/${event_id}`), {
         addedToCalendar: true
       })
       .then(() => {
