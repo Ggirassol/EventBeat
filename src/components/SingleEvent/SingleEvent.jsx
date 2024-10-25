@@ -6,7 +6,7 @@ import "./singleEvent.css";
 import Login from "../Login/Login";
 import { UserContext } from "../../../UserContext";
 import { db } from "../../../firebaseConfig";
-import { ref, set, onValue} from "firebase/database";
+import { ref, set, onValue, update} from "firebase/database";
 
 const SingleEvent = () => {
   const { event_id } = useParams();
