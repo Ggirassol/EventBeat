@@ -5,7 +5,7 @@ import { UserProvider } from "../UserContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <UserProvider>
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </UserProvider>
