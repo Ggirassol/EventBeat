@@ -98,7 +98,15 @@ const SingleEvent = () => {
     });
     
     request.execute(function(event) { 
-      setAddedToGoogleCalendar(true)
+      set(ref(db, `users/${user.uid}/events/${event_id}`), {
+        addedToCalendar: true
+      })
+      .then(() => {
+        setAddedToGoogleCalendar(true);
+      })
+      .catch(() => {
+        alert('Error. Try again later');
+      })
     });
   }
 
@@ -132,6 +140,17 @@ const SingleEvent = () => {
         setHasSignedUp(false)
       } else {
         setHasSignedUp(true)
+        }
+    })
+  }
+
+  function checkAddedToGoogleCalendar(userId, eventId) {
+    const calendarRef = ref(db, `users/${userId}/events/${eventId}/addedToCalendar`);
+    onValue(calendarRef, (snapshot) => {
+      if (snapshot.val() === null) {
+        setAddedToGoogleCalendar(false)
+      } else {
+        setAddedToGoogleCalendar(true)
       }
     })
   }
@@ -150,6 +169,7 @@ const SingleEvent = () => {
         });
       }
       checkHasSignedUp(user.uid, event_id);
+      checkAddedToGoogleCalendar(user.uid, event_id)
     });
   }, []);
 
