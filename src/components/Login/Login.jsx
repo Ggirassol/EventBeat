@@ -2,9 +2,8 @@ import { browserLocalPersistence, setPersistence, signInWithEmailAndPassword } f
 import "./Login.css";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db } from "../../../firebaseConfig";
+import { auth } from "../../../firebaseConfig";
 import{ UserContext} from "../../../UserContext";
-import { ref, set } from "firebase/database";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,8 +40,6 @@ const Login = () => {
           });
       });
   };
-
-  console.log(user)
 
   useEffect(() => {
     if (user && user.emailVerified) {

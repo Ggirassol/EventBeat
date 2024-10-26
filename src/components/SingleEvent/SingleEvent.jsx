@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getEventById } from "../../../api";
 import getDates from "../../getDatesfunc";
 import "./singleEvent.css";
-import Login from "../Login/Login";
 import { UserContext } from "../../../UserContext";
 import { db } from "../../../firebaseConfig";
 import { ref, set, onValue, update} from "firebase/database";
@@ -15,6 +14,7 @@ const SingleEvent = () => {
   const [hasSignedUp, setHasSignedUp] = useState(false);
   const [isTicketmasterEvent, setIsTicketmasterEvent] = useState(null)
   const [addedToGoogleCalendar, setAddedToGoogleCalendar] = useState(false)
+  const [notFound, setNotFound] = useState(false); 
 
   const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -166,11 +166,16 @@ const SingleEvent = () => {
         getEventById(event_id).then(({ data }) => {
           setIsTicketmasterEvent(true);
           setSingleEvent(data._embedded.events[0]);
-        });
+        })
+        .catch((err) => {
+      console.error(err);
+      setNotFound(true);
+    });
       }
       checkHasSignedUp(user.uid, event_id);
       checkAddedToGoogleCalendar(user.uid, event_id)
-    });
+    })
+
   }, []);
 
   function signUpForEvent(userId, eventId) {
@@ -185,6 +190,15 @@ const SingleEvent = () => {
     .catch(() => {
       alert('Error. Try again later');
     })
+  }
+
+  if (notFound) {
+    return (
+      <div className="not-found">
+        <h1>Error 404 - Event Not Found</h1>
+        <p>Event doesn't exist.</p>
+      </div>
+    );
   }
 
   if (!singleEvent) {
