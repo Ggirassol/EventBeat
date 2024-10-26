@@ -3,6 +3,7 @@
     justify-content: space-between;
     border: solid 0.1vh grey;
     padding: 3vh;
+    min-width: 50vh;
 }
 
 .event-info {
@@ -33,10 +34,17 @@
 
 .see-more {
     display: flex;
+    min-width: fit-content;
 }
 
 .see-more-link {
+    margin: 0;
     text-decoration: none;
-    color: orangered;
+    color: rgb(191, 63, 34);
     align-content: center;
+    padding-left: 3vh;
+}
+
+.see-more-link:hover {
+    text-decoration: underline;
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import '../Register/Register.css'
-import { push, ref, set } from "firebase/database";
+import { push, ref } from "firebase/database";
 import { db } from "../../../firebaseConfig";
 
 const Create = () => {

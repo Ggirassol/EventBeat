@@ -16,15 +16,19 @@ const AllEvents = () => {
   const [totalPages, setTotalPages] = useState(0);
   const { user, setUser } = useContext(UserContext);
   const [isStaff, setIsStaff] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getAllEvents(page)
       .then(({ data }) => {
         setTotalPages(data.page.totalPages);
         setTicketmasterEvents((prevEvents) => [...prevEvents, ...data._embedded.events]);
+        setError(null);
+        setLoading(false)
       })
-      .catch((err) => {
-        console.log(err); // set error later
+      .catch(() => {
+        setError('An error occured while loading events. Try again later...')
       });
   }, [page]);
 
@@ -39,6 +43,7 @@ const AllEvents = () => {
       }
 
       setFirebaseEvents(firebaseEventsList);
+      setLoading(false)
     });
   }, []);
 
@@ -58,7 +63,6 @@ const AllEvents = () => {
       setPage(page + 1);
     }
   }
-  console.log(user)
 
   function top() {
   scrollTo(0,0)
@@ -67,8 +71,8 @@ const AllEvents = () => {
  function logout() {
   signOut(auth).then(() => {
     setUser(null)
-  }).catch((error) => {
-    // An error happened.
+  }).catch(() => {
+    Alert('An error occured during Logout. Try again later')
   });
  }
 
@@ -82,12 +86,14 @@ const AllEvents = () => {
               <p>+</p>
             </Link>
           )}
-
+          {loading ? <p className="loading">Loading...</p> :
+          error ? <p>{error}</p> :
           <ul className="event-list">
             {allEvents.map((event) => (
               <Eventcard key={event.id} event={event} />
             ))}
           </ul>
+          }
 
           {page < totalPages - 1 && <button className='load-more-btn' onClick={loadMore}>Load More</button>}
           <button className="scroll-to-top-btn" onClick={top}>back to top</button>

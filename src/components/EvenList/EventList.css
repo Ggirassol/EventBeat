@@ -43,3 +43,7 @@
     font-size: x-small;
     padding: 0.7vh;
 }
+
+.loading {
+    text-align: center;
+}

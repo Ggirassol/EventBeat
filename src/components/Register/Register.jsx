@@ -26,11 +26,9 @@ const Register = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         sendEmailVerification(userCredentials.user);
-        console.log(userCredentials)
         alert("Please check your email inbox to verify your account and login!");
         navigate('/login', { replace: true });
         setUser(userCredentials)
-        console.log(userCredentials, "userCredentials");
         const userId = auth.currentUser.uid;
         set(ref(db, 'users/' + userId), {
           "email": email,
@@ -38,7 +36,6 @@ const Register = () => {
         })
       })
       .catch((error) => {
-        console.log(error); //
         if (error.code === 'auth/weak-password') {
           alert("Password should be at least 6 characters")
         }
