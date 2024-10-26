@@ -20,7 +20,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: bahmutov/npm-install@v4
+        uses: bahmutov/npm-install@v4
 
       - name: Build project
         run: npm run build
