@@ -13,7 +13,7 @@ const evenBrite = axios.create({
 });
 
 export const getAllEvents = (page) => {
-    return evenBrite.get(`/events.json?countryCode=GB&city=london&sort=random&segmentName=music&includeTest=no&startDateTime=${formattedToday}&endDateTime=${formattedTodayPlusTwoYears}&apikey=${TICKETMASTER_API_KEY}&page=${page}`);
+    return evenBrite.get(`/events.json?countryCode=GB&city=london&sort=date,asc&segmentName=music&includeTest=no&startDateTime=${formattedToday}&endDateTime=${formattedTodayPlusTwoYears}&apikey=${TICKETMASTER_API_KEY}&page=${page}`);
 };
 
 export const getEventById = (id) => {
