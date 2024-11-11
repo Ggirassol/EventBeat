@@ -4,6 +4,7 @@
     border: solid 0.1vh grey;
     padding: 3vh;
     min-width: 50vh;
+    font-size: 2vh;
 }
 
 .event-info {
@@ -25,16 +26,17 @@
 }
 
 .day {
-    font-size:x-large;
+    font-size:4vh;
 }
 
 .month {
-    font-size: medium;
+    font-size: 2vh;
 }
 
 .see-more {
     display: flex;
     min-width: fit-content;
+    font-size: 2vh;
 }
 
 .see-more-link {
