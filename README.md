@@ -25,6 +25,9 @@ password for both: canyoufeelthebeat1190
 To login on this email accounts and google accounts (so you are able to add an event to the google calendar and check your google calendar online) the emails and passwords are also the same
 
 # RUN YOUR LOCAL MACHINE
+
+node v>=18.18
+
 1) Clone the repository
 - git clone https://github.com/Ggirassol/EventBeat.git
 
