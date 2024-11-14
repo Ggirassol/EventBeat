@@ -1,12 +1,13 @@
 .event-list {
-    margin-left: 10vh;
-    margin-right: 10vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
 }
 
 .load-more-btn {
-    margin: 3vh 3vh 3vh 10vh;
+    margin: 3vh 0vh 0vh 3vw;
     font-size: x-small;
     padding: 0.7vh;
+    font-size: clamp(14px, 1vw, 45px)
 }
 
 .add-event-link {
@@ -16,14 +17,15 @@
     align-items: center;
     background-color: rgb(76, 174, 235);
     color: black;
-    font-size: xx-large;
-    bottom: 2vh;
-    right: 2vh;
-    width: 7vh;
-    height: 7vh;
+    font-size: clamp(24px, 2vw, 75px);
+    bottom: 3vh;
+    right: 3vw;
+    width: clamp(30px, 2vw, 100px);
+    height: clamp(30px, 2vw, 100px);
     border-radius: 25%;
     text-decoration: none;
     box-shadow: 1vh 1vh 0.5vh lightblue;
+    padding: 0.5vw;
 }
 
 .scroll-to-top-btn {
@@ -32,18 +34,21 @@
     font-size: x-small;
     padding: 0.7vh;
     margin-bottom: 3vh;
+    font-size: clamp(14px, 1vw, 45px)
 }
 
 .logout-btn {
     position: absolute;
     top: 2vh;
-    right: 2vh;
-    width: 8vh;
-    height: 5vh;
-    font-size: x-small;
+    right: 3vw;
+    width: fit-content;
+    height: fit-content;
+    font-size: 2vh;
     padding: 0.7vh;
+    font-size: clamp(14px, 1vw, 45px)
 }
 
 .loading {
     text-align: center;
+    font-size: clamp(14px, 1.5vw, 24px)
 }

@@ -1,21 +1,40 @@
 .register-form {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin-top: 10vh;
+    align-items: center;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    width: 50vh;
+    width: clamp(300px, 50vw, 500px);
 }
 
+.form p {
+    font-size: clamp(14px, 0.7vw, 45px);
+}
+
+.form input {
+    font-size: clamp(16px, 0.7vw, 45px);
+}
+
+.form label {
+    font-weight: bold;
+    font-size: clamp(17px, 1vw, 50px);
+}
 .form button {
    width: fit-content;
    margin: 5vh 0vh 5vh 0vh;
    align-self: flex-end;
+   font-size: clamp(14px, 1vw, 45px);
 }
 
 .form span {
     color: red;
+}
+
+.form .mandatory {
+    margin-top: 5vh;
 }
