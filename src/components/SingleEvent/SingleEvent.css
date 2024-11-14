@@ -1,15 +1,16 @@
 .single-event {
     margin: 5vh 10vh 5vh 10vh;
-    font-size: 2vh;
+    font-size: clamp(16px, 1vw, 50px)
 }
 
 .single-event h1 {
-    font-size: 4vh;
+    font-size: clamp(24px, 2vw, 75px)
 }
 
 .single-event img {
-    width: 60%;
-    margin: 4vh 0 4vh 0;
+    height: 50vh;
+    max-height: 500px;
+    margin: 1vw 0 1vw 0;
 }
 
 .single-event button {

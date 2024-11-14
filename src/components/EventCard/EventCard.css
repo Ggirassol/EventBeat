@@ -4,7 +4,7 @@
     border: solid 0.1vh grey;
     padding: 3vh;
     min-width: 50vh;
-    font-size: 2vh;
+    font-size: clamp(16px, 1vw, 50px)
 }
 
 .event-info {
@@ -16,9 +16,13 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    min-width: 20vh;
-    width: 20vh;
-    margin-right: 3vh;
+    width: 11vw;
+    min-width: 120px;
+    margin-right: 3vw;
+}
+
+.event-date p {
+    line-height: 1.7; /* Adjust this as needed */
 }
 
 .bold {
@@ -26,17 +30,18 @@
 }
 
 .day {
-    font-size:4vh;
+    font-size: clamp(24px, 2vw, 75px)
 }
 
 .month {
-    font-size: 2vh;
+    font-size: clamp(18px, 1.3vw, 50px)
 }
 
 .see-more {
     display: flex;
     min-width: fit-content;
-    font-size: 2vh;
+    font-size: clamp(16px, 1vw, 50px);
+    margin-left: 3vh;
 }
 
 .see-more-link {

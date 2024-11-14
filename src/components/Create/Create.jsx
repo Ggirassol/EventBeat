@@ -142,6 +142,7 @@ const Create = () => {
                 onChange={(e) => setEventPictureUrl(e.target.value)}
                 id="EventPictureUrl"
               ></input>
+              <p className="mandatory">All fields marked with <span>*</span> are required.</p>
               <button type="submit">Create</button>
             </form>
           </div>
