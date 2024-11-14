@@ -27,7 +27,7 @@ function App() {
   return (
     <>
       <div className="header">
-        <h1>EventBite</h1>
+        <h1>EventBeat</h1>
       </div>
       {loading ? <div className="loading">Loading...</div> : 
       <Routes>
