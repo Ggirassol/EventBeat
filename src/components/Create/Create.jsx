@@ -8,7 +8,6 @@ const Create = () => {
   const [eventLocalDate, setEventLocalDate] = useState("");
   const [eventLocalHour, setEventLocalHour] = useState("");
   const [eventLocalMinutes, setEventLocalMinutes] = useState("");
-  const [eventLocalTime, setEventLocalTime] = useState("");
   const [eventVenue, setEventVenue] = useState("");
   const [eventSegment, setEventSegment] = useState("");
   const [eventGenre, setEventGenre] = useState("");
@@ -17,7 +16,6 @@ const Create = () => {
   const [eventVenueAddress, setEventVenueAddress] = useState("");
   const [eventVenueCity, setEventVenueCity] = useState("");
   const [eventPictureUrl, setEventPictureUrl] = useState("");
-  const [eventIsSubmited, setEventIsSubmited] = useState(false);
 
   const currYear = parseInt(new Date().getFullYear());
   const today = new Date().toISOString().slice(0, 10);
