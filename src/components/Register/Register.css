@@ -16,7 +16,7 @@
     font-size: clamp(14px, 0.7vw, 45px);
 }
 
-.form input {
+.form input, .form .time select {
     font-size: clamp(16px, 0.7vw, 45px);
 }
 
@@ -24,6 +24,17 @@
     font-weight: bold;
     font-size: clamp(17px, 1vw, 50px);
 }
+
+.form .time {
+    display: flex;
+}
+
+.form select, .date {
+    width: fit-content;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
 .form button {
    width: fit-content;
    margin: 5vh 0vh 5vh 0vh;
