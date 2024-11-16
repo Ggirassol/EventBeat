@@ -53,16 +53,11 @@ const Create = () => {
       !eventLocalDate ||
       !eventVenue ||
       !eventVenueAddress ||
-      !eventVenueCity
+      !eventVenueCity ||
+      !eventLocalHour ||
+      !eventLocalMinutes
     ) {
       alert("Please fill in all manadatory fields.");
-      return;
-    }
-
-    if (
-      (eventLocalHour !== "" && eventLocalMinutes === "") || (eventLocalMinutes !== "" & eventLocalHour === "")
-    ) {
-      alert("Please select a valid time.");
       return;
     }
 
@@ -113,7 +108,8 @@ const Create = () => {
             min={today}
             max={inThreeYearsTime()}
           />
-          <label htmlFor="event local time">Event local time</label>
+          <label htmlFor="event local time">
+          <span>* </span>Event local time</label>
           <div className="time">
           <select
             id="hour"
