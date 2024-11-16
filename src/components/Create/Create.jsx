@@ -140,13 +140,6 @@ const Create = () => {
             })}
           </select>
           </div>
-          {/* <input
-              type="text"
-              value={eventLocalTime}
-              onChange={(e) => setEventLocalTime(e.target.value)}
-              id="EventLocalTime"
-              placeholder="follow this format: 22:30"
-            ></input> */}
           <label htmlFor="event venue">
             <span>* </span>Venue
           </label>
