@@ -15,6 +15,9 @@ const SingleEvent = () => {
   const [isTicketmasterEvent, setIsTicketmasterEvent] = useState(null)
   const [addedToGoogleCalendar, setAddedToGoogleCalendar] = useState(false)
   const [notFound, setNotFound] = useState(false); 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDurationSelected, setIsDurationSelected] = useState(false)
+  const [duration, setDuration] = useState(null);
 
   const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -24,6 +27,13 @@ const SingleEvent = () => {
   const [gapiInited, setGapiInited] = useState(false);
   const [gisInited, setGisInited] = useState(false);
   const [tokenClient, setTokenClient] = useState(null);
+
+  const hours = [];
+  for (let i=1; i<=24; i++) {
+    hours.push(i)
+  }
+
+  console.log(singleEvent)
 
   useEffect(() => {
     if (window.gapi) {
@@ -49,6 +59,7 @@ const SingleEvent = () => {
     setGisInited(true);
   }
 
+
   function handleAuthClick() {
     if (!gapiInited || !gisInited || !tokenClient) {
       alert("An error has occurred... Please try again later.");
@@ -61,13 +72,13 @@ const SingleEvent = () => {
         alert("Error during Google authentication. Please try again.");
         return;
       }
-      addToGoogleCalendar();
+      setIsModalVisible(true)
     };
   
     if (gapi.client.getToken() === null) {
       tokenClient.requestAccessToken({ prompt: 'consent' });
     } else {
-      addToGoogleCalendar();
+      setIsModalVisible(true)
     }
   }
 
@@ -75,8 +86,7 @@ const SingleEvent = () => {
     const startDateTime =  turnIntoGoogleDateTimeEventFormat(eventDate, (isTicketmasterEvent
       ? singleEvent.dates.start.localTime
       : singleEvent.eventLocalTime+":00"));
-
-      const endDateTime = addOneHourTo(startDateTime)
+    const endDateTime = addDurationTo(duration, startDateTime);
     const event = {
       summary: isTicketmasterEvent ? singleEvent.name : singleEvent.eventName,
       location: isTicketmasterEvent ? singleEvent._embedded.venues[0].name : singleEvent.eventVenue,
@@ -85,7 +95,7 @@ const SingleEvent = () => {
         timeZone: "Europe/London",
       },
       end: {
-        dateTime: endDateTime, // Replace with actual end time
+        dateTime: endDateTime,
         timeZone: "Europe/London",
       },
       reminders: {
@@ -117,10 +127,10 @@ const SingleEvent = () => {
     return googleEventDateTime;
   }
 
-  function addOneHourTo(dateTime) {
+  function addDurationTo(howManyHours, dateTime) {
     const string = dateTime.split("+");
     const initial = new Date(string[0]);
-    const initialPlusOne = new Date(initial.getTime() + 1 * 60 * 60 * 1000);
+    const initialPlusOne = new Date(initial.getTime() + howManyHours * 60 * 60 * 1000);
     const endTime = initialPlusOne.toISOString().replace('Z', '+00:00');
     return endTime;
   }
@@ -190,6 +200,16 @@ const SingleEvent = () => {
     .catch(() => {
       alert('Error. Try again later');
     })
+  }
+
+  function handleModalSubmit() {
+    if (duration) {
+      setIsDurationSelected(true);
+      setIsModalVisible(false);
+      addToGoogleCalendar();
+    } else {
+      alert ("Please select event duration.")
+    }
   }
 
   if (notFound) {
@@ -263,6 +283,30 @@ const SingleEvent = () => {
           </button>
         )}
       </div>
+      {isModalVisible && (
+        <div className="modal">
+          <div className="content">
+            <p>How many hours is your event?</p>
+            <div className="options">
+              <select
+                id="duration"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+              >
+                <option value="">hours</option>
+                {hours.map((hour) => {
+                  return (
+                    <option key={hour} value={hour}>
+                      {hour}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <button className="submit-btn" onClick={() => handleModalSubmit()}>Submit</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
