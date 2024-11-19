@@ -6,6 +6,7 @@ import Logout from "../Logout/Logout";
 import Login from "../Login/Login";
 import NavBar from "../NavBar/NavBar";
 import Eventcard from "../EventCard/EventCard";
+import './MyEvents.css'
 
 const MyEvents = () => {
   const [myEvents, setMyEvents] = useState([]);
@@ -38,7 +39,7 @@ const MyEvents = () => {
   }
 
   return (
-    <>
+    <div className="myEvents">
       {!user ? (
         <Login />
       ) : (
@@ -49,20 +50,24 @@ const MyEvents = () => {
             <p className="loading">Loading...</p>
           )
           : 
-          (Object.keys(myEvents).length > 0 &&  
+          (Object.keys(myEvents).length > 0 ?
+          <div>
             <ul className="event-list">
               {myEvents.map((event) => (
                 <Eventcard key={event.eventId} event={event} />
               ))}
             </ul>
+            <button className="scroll-to-top-btn" onClick={top}>
+              back to top
+            </button>
+          </div>
+          : 
+          <p className="empty-events">You haven't signed up for any events yet.</p>
           )
           }
-          <button className="scroll-to-top-btn" onClick={top}>
-            back to top
-          </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

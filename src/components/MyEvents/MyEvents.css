@@ -1,0 +1,6 @@
+.myEvents .empty-events {
+    font-size: clamp(14px, 1vw, 45px);
+    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
