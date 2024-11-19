@@ -7,7 +7,7 @@
     display: flex;
     padding: 0vw 2vw 1.5vh 2vw;
     gap: 35px;
-    font-size: clamp(16px, 1vw, 50px);
+    font-size: clamp(20px, 1vw, 60px);
     background-color: orangered;
     color: white;
 }
