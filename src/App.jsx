@@ -9,6 +9,7 @@ import { UserContext } from "../UserContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import Create from "./components/Create/Create";
+import MyEvents from "./components/MyEvents/MyEvents";
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -36,6 +37,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create" element={<Create />} />
+        <Route path='/my-events' element={<MyEvents/>} />
       </Routes>
       }
     </>

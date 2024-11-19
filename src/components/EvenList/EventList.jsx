@@ -7,7 +7,8 @@ import Login from '../Login/Login'
 import { onValue, ref } from "firebase/database";
 import { auth, db } from "../../../firebaseConfig";
 import { Link } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import Logout from "../Logout/Logout";
+import NavBar from "../NavBar/NavBar";
 
 const AllEvents = () => {
   const [ticketmasterEvents, setTicketmasterEvents] = useState([]);
@@ -39,7 +40,10 @@ const AllEvents = () => {
       const firebaseEventsList = [];
 
       for (const id in firebaseEventsData) {
-        firebaseEventsList.push({ id, ...firebaseEventsData[id] });
+        if (new Date().setHours(0, 0, 0, 0) <=
+        new Date((firebaseEventsData[id].eventLocalDate)).setHours(0, 0, 0, 0)) {
+          firebaseEventsList.push({ id, ...firebaseEventsData[id] });
+        }
       }
 
       setFirebaseEvents(firebaseEventsList);
@@ -68,19 +72,12 @@ const AllEvents = () => {
   scrollTo(0,0)
  }
 
- function logout() {
-  signOut(auth).then(() => {
-    setUser(null)
-  }).catch(() => {
-    Alert('An error occured during Logout. Try again later')
-  });
- }
-
   return (
     <>
     {!user ? <Login/> : (
         <div>
-          <button className="logout-btn" onClick={logout}>Logout</button>
+          <NavBar/>
+          <Logout/>
           {isStaff && (
             <Link target="_blank" to="/create" className="add-event-link">
               <p>+</p>

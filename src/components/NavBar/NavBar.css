@@ -1,0 +1,13 @@
+.nav-bar a, .nav-bar:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-bar {
+    display: flex;
+    padding: 0vw 2vw 1.5vh 2vw;
+    gap: 35px;
+    font-size: clamp(16px, 1vw, 50px);
+    background-color: orangered;
+    color: white;
+}

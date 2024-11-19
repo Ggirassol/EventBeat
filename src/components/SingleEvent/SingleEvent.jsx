@@ -193,6 +193,16 @@ const SingleEvent = () => {
     const eventName = isTicketmasterEvent ? singleEvent.name : singleEvent.eventName;
     set(eventRef, {
       eventName: eventName,
+      eventLocalDate: isTicketmasterEvent ? singleEvent.dates.start.localDate : singleEvent.eventLocalDate,
+      eventLocalTime: isTicketmasterEvent ? singleEvent.dates.start.localTime.slice(0, -3) : singleEvent.eventLocalTime,
+      eventGenre: isTicketmasterEvent ? singleEvent._embedded.venues[0].name : singleEvent.eventVenue,
+      eventPictureUrl: isTicketmasterEvent ? singleEvent.images[8].url : singleEvent.eventPictureUrl,
+      eventSegment: isTicketmasterEvent ? singleEvent.classifications[0].segment.name : singleEvent.eventSegment,
+      eventSubGenre: isTicketmasterEvent ? singleEvent.classifications[0].subGenre.name : singleEvent.eventSubGenre,
+      eventSubType: isTicketmasterEvent ? singleEvent.classifications[0].subType.name : singleEvent.eventSubType,
+      eventVenue: isTicketmasterEvent ? singleEvent._embedded.venues[0].name : singleEvent.eventVenue,
+      eventVenueAddress: isTicketmasterEvent ? singleEvent._embedded.venues[0].address : singleEvent.eventVenueAddress,
+      eventVenueCity: isTicketmasterEvent? singleEvent._embedded.venues[0].city.name : singleEvent.eventVenueCity
     })
     .then(() => {
       setHasSignedUp(true);
