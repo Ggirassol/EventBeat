@@ -28,11 +28,14 @@ const Eventcard = ({ event }) => {
           </p>
         </div>
       </div>
+      {new Date().setHours(0, 0, 0, 0) <=
+        new Date(date).setHours(0, 0, 0, 0) && (
       <div className="see-more">
-      <Link target="_blank" className="see-more-link" to={`/events/${event.id}`}>
+      <Link target="_blank" className="see-more-link" to={`/events/${event.id || event.eventId}`}>
           <p>More Info</p>
         </Link>
       </div>
+        )}
     </li>
   );
 };
